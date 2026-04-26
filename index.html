@@ -1,30 +1,76 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Design Portfolio</title>
+  <title>Abhinav | Design Portfolio</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <style>
     body {
       margin: 0;
       font-family: 'Segoe UI', sans-serif;
-      background: linear-gradient(135deg, #0f0f0f, #1c1c1c);
+      background: #0f0f0f;
       color: white;
+      overflow-x: hidden;
     }
 
-    h1 {
-      text-align: center;
-      margin-top: 30px;
-      font-size: 2.2rem;
-      letter-spacing: 1px;
+    html {
+      scroll-behavior: smooth;
     }
 
-    p {
+    /* HERO */
+    .hero {
+      height: 100vh;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+
+    #smoke {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 2;
       text-align: center;
+    }
+
+    .hero h1 {
+      font-size: 3rem;
+      letter-spacing: 3px;
+    }
+
+    .hero p {
       opacity: 0.7;
     }
 
-    /*  MASONRY GRID (keeps aspect ratio) */
+    .cta {
+      display: inline-block;
+      margin-top: 20px;
+      padding: 10px 20px;
+      border-radius: 25px;
+      border: 1px solid rgba(255,255,255,0.3);
+      color: white;
+      text-decoration: none;
+      backdrop-filter: blur(10px);
+      transition: 0.3s;
+    }
+
+    .cta:hover {
+      background: rgba(255,255,255,0.1);
+    }
+
+    /* SECTION TITLE */
+    h2 {
+      text-align: center;
+      margin-top: 40px;
+    }
+
+    /* MASONRY */
     .gallery {
       column-count: 3;
       column-gap: 18px;
@@ -44,8 +90,8 @@
       margin-bottom: 18px;
       border-radius: 16px;
       overflow: hidden;
+      background: rgba(255,255,255,0.05);
       backdrop-filter: blur(12px);
-      background: rgba(255, 255, 255, 0.05);
       border: 1px solid rgba(255,255,255,0.08);
       box-shadow: 0 10px 30px rgba(0,0,0,0.6);
       cursor: pointer;
@@ -61,14 +107,11 @@
       display: block;
     }
 
-    /* 🔥 MODAL */
+    /* MODAL */
     .modal {
       display: none;
       position: fixed;
       z-index: 999;
-      padding-top: 40px;
-      left: 0;
-      top: 0;
       width: 100%;
       height: 100%;
       background: rgba(0,0,0,0.9);
@@ -76,8 +119,9 @@
     }
 
     .modal img {
-      margin: auto;
       display: block;
+      margin: auto;
+      margin-top: 5%;
       max-width: 90%;
       max-height: 85%;
       border-radius: 12px;
@@ -87,19 +131,42 @@
       position: absolute;
       top: 20px;
       right: 35px;
-      color: white;
       font-size: 35px;
       cursor: pointer;
     }
+
+    /* SCROLL ANIMATION */
+    .fade-up {
+      opacity: 0;
+      transform: translateY(40px);
+      transition: 0.8s;
+    }
+
+    .fade-up.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
   </style>
 </head>
 
 <body>
 
-<h1>Design Portfolio</h1>
-<p>A B H I N A V</p>
+<!-- HERO -->
+<section class="hero">
+  <canvas id="smoke"></canvas>
 
-<div class="gallery">
+  <div class="hero-content">
+    <h1>A B H I N A V</h1>
+    <p>Visual Design • Posters • Branding</p>
+    <a href="#work" class="cta">View Work</a>
+  </div>
+</section>
+
+<!-- WORK -->
+<h2 id="work">My Work</h2>
+
+<div class="gallery fade-up">
 
   <div class="card"><img src="1.png"></div>
   <div class="card"><img src="2.png"></div>
@@ -119,28 +186,79 @@
 
 </div>
 
-<!-- 🔥 MODAL -->
+<!-- MODAL -->
 <div id="modal" class="modal">
   <span class="close">&times;</span>
   <img id="modal-img">
 </div>
 
 <script>
-  const modal = document.getElementById("modal");
-  const modalImg = document.getElementById("modal-img");
-  const images = document.querySelectorAll(".card img");
-  const closeBtn = document.querySelector(".close");
+// MODAL
+const modal = document.getElementById("modal");
+const modalImg = document.getElementById("modal-img");
 
-  images.forEach(img => {
-    img.onclick = () => {
-      modal.style.display = "block";
-      modalImg.src = img.src;
+document.querySelectorAll(".card img").forEach(img => {
+  img.onclick = () => {
+    modal.style.display = "block";
+    modalImg.src = img.src;
+  }
+});
+
+document.querySelector(".close").onclick = () => modal.style.display = "none";
+modal.onclick = () => modal.style.display = "none";
+
+
+// SCROLL ANIMATION
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add("show");
     }
   });
+});
 
-  closeBtn.onclick = () => modal.style.display = "none";
+document.querySelectorAll(".fade-up").forEach(el => observer.observe(el));
 
-  modal.onclick = () => modal.style.display = "none";
+
+// SMOKE PARTICLES
+const canvas = document.getElementById("smoke");
+const ctx = canvas.getContext("2d");
+
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+
+let particles = [];
+
+for (let i = 0; i < 80; i++) {
+  particles.push({
+    x: Math.random() * canvas.width,
+    y: Math.random() * canvas.height,
+    r: Math.random() * 2,
+    dx: Math.random() - 0.5,
+    dy: Math.random() - 0.5
+  });
+}
+
+function animate() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+  particles.forEach(p => {
+    ctx.beginPath();
+    ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+    ctx.fillStyle = "rgba(255,255,255,0.05)";
+    ctx.fill();
+
+    p.x += p.dx;
+    p.y += p.dy;
+
+    if (p.x < 0 || p.x > canvas.width) p.dx *= -1;
+    if (p.y < 0 || p.y > canvas.height) p.dy *= -1;
+  });
+
+  requestAnimationFrame(animate);
+}
+
+animate();
 </script>
 
 </body>
