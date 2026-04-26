@@ -1,61 +1,147 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>My Design Portfolio</title>
+  <title>Design Portfolio</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
   <style>
     body {
       margin: 0;
-      font-family: Arial;
-      background: #0f0f0f;
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(135deg, #0f0f0f, #1c1c1c);
       color: white;
-      text-align: center;
     }
 
     h1 {
-      margin: 20px;
+      text-align: center;
+      margin-top: 30px;
+      font-size: 2.2rem;
+      letter-spacing: 1px;
     }
 
+    p {
+      text-align: center;
+      opacity: 0.7;
+    }
+
+    /* 🔥 MASONRY GRID (keeps aspect ratio) */
     .gallery {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: 15px;
+      column-count: 3;
+      column-gap: 18px;
       padding: 20px;
     }
 
-    .gallery img {
-      width: 100%;
-      border-radius: 12px;
+    @media (max-width: 900px) {
+      .gallery { column-count: 2; }
+    }
+
+    @media (max-width: 500px) {
+      .gallery { column-count: 1; }
+    }
+
+    .card {
+      break-inside: avoid;
+      margin-bottom: 18px;
+      border-radius: 16px;
+      overflow: hidden;
+      backdrop-filter: blur(12px);
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255,255,255,0.08);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.6);
+      cursor: pointer;
       transition: 0.3s;
     }
 
-    .gallery img:hover {
-      transform: scale(1.05);
+    .card:hover {
+      transform: translateY(-6px) scale(1.02);
+    }
+
+    .card img {
+      width: 100%;
+      display: block;
+    }
+
+    /* 🔥 MODAL */
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 999;
+      padding-top: 40px;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.9);
+      backdrop-filter: blur(10px);
+    }
+
+    .modal img {
+      margin: auto;
+      display: block;
+      max-width: 90%;
+      max-height: 85%;
+      border-radius: 12px;
+    }
+
+    .close {
+      position: absolute;
+      top: 20px;
+      right: 35px;
+      color: white;
+      font-size: 35px;
+      cursor: pointer;
     }
   </style>
 </head>
 
 <body>
 
-<h1>Design Portfolio (Posters)</h1>
-<p>A B H I N A V</p>
+<h1>Design Portfolio</h1>
+<p>Abhinav</p>
 
 <div class="gallery">
-  <img src="1.png">
-  <img src="2.png">
-  <img src="3.png">
-  <img src="4.png">
-  <img src="5.png">
-  <img src="6.png">
-  <img src="7.png">
-  <img src="football.png">
-  <img src="grandf.png">
-  <img src="kabaddi.png">
-  <img src="tugofwar.png">
-  <img src="NEWjerseydsnmod.png">
-  <img src="masquerade.png">
-  <img src="forher.png">
-  <img src="forhim.png">
+
+  <div class="card"><img src="1.png"></div>
+  <div class="card"><img src="2.png"></div>
+  <div class="card"><img src="3.png"></div>
+  <div class="card"><img src="4.png"></div>
+  <div class="card"><img src="5.png"></div>
+  <div class="card"><img src="6.png"></div>
+  <div class="card"><img src="7.png"></div>
+  <div class="card"><img src="football.png"></div>
+  <div class="card"><img src="grandf.png"></div>
+  <div class="card"><img src="kabaddi.png"></div>
+  <div class="card"><img src="tugofwar.png"></div>
+  <div class="card"><img src="NEWjerseysdsmood.png"></div>
+  <div class="card"><img src="masquerade.png"></div>
+  <div class="card"><img src="forher.png"></div>
+  <div class="card"><img src="forhim.png"></div>
+
 </div>
+
+<!-- 🔥 MODAL -->
+<div id="modal" class="modal">
+  <span class="close">&times;</span>
+  <img id="modal-img">
+</div>
+
+<script>
+  const modal = document.getElementById("modal");
+  const modalImg = document.getElementById("modal-img");
+  const images = document.querySelectorAll(".card img");
+  const closeBtn = document.querySelector(".close");
+
+  images.forEach(img => {
+    img.onclick = () => {
+      modal.style.display = "block";
+      modalImg.src = img.src;
+    }
+  });
+
+  closeBtn.onclick = () => modal.style.display = "none";
+
+  modal.onclick = () => modal.style.display = "none";
+</script>
 
 </body>
 </html>
