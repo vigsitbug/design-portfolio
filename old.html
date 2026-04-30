@@ -21,7 +21,7 @@
     .back {
       display: block;
       text-align: center;
-      margin-top: 20px;
+      margin: 20px 0;
       color: white;
       text-decoration: none;
       opacity: 0.7;
@@ -30,19 +30,7 @@
     .gallery {
       column-count: 3;
       column-gap: 18px;
-      padding: 40px;
-    }
-
-    .card {
-      break-inside: avoid;
-      margin-bottom: 18px;
-      border-radius: 12px;
-      overflow: hidden;
-    }
-
-    .card img {
-      width: 100%;
-      display: block;
+      padding: 30px;
     }
 
     @media (max-width: 900px) {
@@ -52,22 +40,148 @@
     @media (max-width: 500px) {
       .gallery { column-count: 1; }
     }
+
+    .card {
+      break-inside: avoid;
+      margin-bottom: 18px;
+      border-radius: 16px;
+      overflow: hidden;
+      background: rgba(255,255,255,0.05);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255,255,255,0.08);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.6);
+      transition: 0.3s;
+      cursor: pointer;
+    }
+
+    .card:hover {
+      transform: scale(1.02);
+    }
+
+    .card img,
+    .card video {
+      width: 100%;
+      display: block;
+    }
+
+    /* MODAL */
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 9999;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.9);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .modal img,
+    .modal video {
+      max-width: 90%;
+      max-height: 85%;
+      border-radius: 12px;
+    }
+
+    .close {
+      position: absolute;
+      top: 20px;
+      right: 35px;
+      font-size: 35px;
+      cursor: pointer;
+    }
+
   </style>
 </head>
 
 <body>
 
-<h1>Archive / Old Posters</h1>
+<h1>Archive / Old Work</h1>
 <a href="index.html" class="back">← Back to Portfolio</a>
 
 <div class="gallery">
 
-  <!-- Add old posters here -->
-  <!-- Example -->
-  <div class="card"><img src="old1.png"></div>
-  <div class="card"><img src="old2.png"></div>
+  <!-- VIDEO (hover play) -->
+  <div class="card">
+    <video src="pwrlk.mp4" muted loop playsinline></video>
+  </div>
 
+  <div class="card">
+    <video src="cuzn.mp4" muted loop playsinline></video>
+  </div>
+
+  <!-- IMAGES -->
+  <div class="card"><img src="cover.png"></div>
+  <div class="card"><img src="cover ext.png"></div>
+  <div class="card"><img src="cad.png"></div>
+  <div class="card"><img src="rb.png"></div>
+  <div class="card"><img src="reg f.png"></div>
+<div class="card"><img src="sus.png"></div>
+  <div class="card"><img src="th.png"></div>
+  <div class="card"><img src="fv.png"></div>
+  
 </div>
+
+<!-- MODAL -->
+<div id="modal" class="modal">
+  <span class="close">&times;</span>
+  <img id="modal-img">
+  <video id="modal-video" controls></video>
+</div>
+
+<script>
+
+// HOVER PLAY FOR VIDEOS
+document.querySelectorAll("video").forEach(video => {
+  video.addEventListener("mouseenter", () => video.play());
+  video.addEventListener("mouseleave", () => {
+    video.pause();
+    video.currentTime = 0;
+  });
+});
+
+
+// MODAL
+const modal = document.getElementById("modal");
+const modalImg = document.getElementById("modal-img");
+const modalVideo = document.getElementById("modal-video");
+
+// IMAGE CLICK
+document.querySelectorAll(".card img").forEach(img => {
+  img.onclick = () => {
+    modal.style.display = "flex";
+    modalImg.style.display = "block";
+    modalVideo.style.display = "none";
+    modalImg.src = img.src;
+  }
+});
+
+// VIDEO CLICK
+document.querySelectorAll(".card video").forEach(video => {
+  video.onclick = () => {
+    modal.style.display = "flex";
+    modalVideo.style.display = "block";
+    modalImg.style.display = "none";
+    modalVideo.src = video.src;
+    modalVideo.play();
+  }
+});
+
+// CLOSE
+document.querySelector(".close").onclick = () => {
+  modal.style.display = "none";
+  modalVideo.pause();
+};
+
+modal.onclick = () => {
+  modal.style.display = "none";
+  modalVideo.pause();
+};
+
+</script>
 
 </body>
 </html>
