@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Abhinav | Archive</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: #0f0f0f;
+      color: white;
+    }
+
+    h1 {
+      text-align: center;
+      margin-top: 60px;
+      letter-spacing: 2px;
+    }
+
+    .back {
+      display: block;
+      text-align: center;
+      margin-top: 20px;
+      color: white;
+      text-decoration: none;
+      opacity: 0.7;
+    }
+
+    .gallery {
+      column-count: 3;
+      column-gap: 18px;
+      padding: 40px;
+    }
+
+    .card {
+      break-inside: avoid;
+      margin-bottom: 18px;
+      border-radius: 12px;
+      overflow: hidden;
+    }
+
+    .card img {
+      width: 100%;
+      display: block;
+    }
+
+    @media (max-width: 900px) {
+      .gallery { column-count: 2; }
+    }
+
+    @media (max-width: 500px) {
+      .gallery { column-count: 1; }
+    }
+  </style>
+</head>
+
+<body>
+
+<h1>Archive / Old Posters</h1>
+<a href="index.html" class="back">← Back to Portfolio</a>
+
+<div class="gallery">
+
+  <!-- Add old posters here -->
+  <!-- Example -->
+  <div class="card"><img src="old1.png"></div>
+  <div class="card"><img src="old2.png"></div>
+
+</div>
+
+</body>
+</html>
